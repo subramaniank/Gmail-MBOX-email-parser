@@ -6,6 +6,7 @@ import quopri
 import re
 import sys
 import html2text
+import json
 
 
 
@@ -130,7 +131,7 @@ class CustomMessage():
             # Shorten long message bodies
             if len(self.body) > body_length:
                 printed_body += "..."
-        return " ---- Custom Message ---- \n  -- Content Type: {}\n  -- Subject: {}\n  -- Body --\n{}\n\n".format(self.content_type, self.subject, printed_body)
+        return json.dumps({'content_type': self.content_type, 'subject': self.subject, 'body': printed_body})
 
     def get_body(self):
         return self.body
@@ -239,6 +240,8 @@ if __name__ == '__main__':
     else:
         file = argv[1]
         messages = extract_mbox_file(file)
+        for message in messages:
+            print(message)
 
 
 # Call to create a CSV file with the extracted data (body + label)
